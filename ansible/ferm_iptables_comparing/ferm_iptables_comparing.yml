@@ -1,0 +1,40 @@
+---
+# ansible-playbook -i ferm_iptables_comparing.hosts ferm_iptables_comparing.yml --ask-sudo-pass -k
+
+- name: ferm_check
+  hosts: ferm_iptables_comparing
+  become: yes
+
+  tasks:
+    - name: compare-rules
+#      ignore_errors: True
+      shell: /usr/local/sbin/ferm_iptables_comparing -o
+      register: result
+      failed_when: "result.rc != 1"
+#      no_log: True
+
+    - debug:
+         msg="{{result.stdout}}"
+
+#    - name: reload_ferm 
+#      shell: /etc/init.d/ferm reload
+#      when: result.stdout == "--- ferm\n+++ iptables\n---icmp-type 8 --jump ACCEPT --protocol icmp -A INPUT\n+--jump ACCEPT --protocol icmp -A INPUT\n---jump DROP --protocol icmp -A INPUT" 
+#      register: echoout
+     
+#    - debug: msg="{{echoout.stdout}}"
+#      when: result.stdout == "--- ferm\n+++ iptables\n---icmp-type 8 --jump ACCEPT --protocol icmp -A INPUT\n+--jump ACCEPT --protocol icmp -A INPUT\n---jump DROP --protocol icmp -A INPUT"
+
+#    - debug: 
+#        var: result.stdout
+
+#    - name: ferm reload
+#      service:       
+#        name: ferm
+#        state: reloaded
+
+#    - name: check ferm state
+#      service_facts:
+#      register: servicesstate
+
+#    - debug:
+#        var: servicesstate.ansible_facts.services.ferm['state']
