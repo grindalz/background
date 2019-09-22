@@ -1,0 +1,1 @@
+docker run -v /var/www/zabbix/:/var/www/zabbix/ -p 80:80 -d --rm web-zabbix

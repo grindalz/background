@@ -1,0 +1,1 @@
+docker run -d -p 5432:5432 --rm -v 1e7351ba9581e327b66d2ca522c1a7439e2404581f6998228d1893431cdf3e27:/var/lib/postgresql/11/main/ dbpgsql-zabbix

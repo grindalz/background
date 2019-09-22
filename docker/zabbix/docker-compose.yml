@@ -1,0 +1,40 @@
+version: "2"
+services:
+        web:
+                image: web-zabbix
+                container_name: web
+                ports: 
+                  - "80:80"
+                volumes: 
+                  - /var/www/zabbix/:/var/www/zabbix/
+                networks:
+                  - zabbix-net
+        db:
+                image: dbpgsql-zabbix
+                container_name: db
+                ports:
+                  - "5432:5432"
+                volumes:
+                  - /var/lib/docker/volumes/1e7351ba9581e327b66d2ca522c1a7439e2404581f6998228d1893431cdf3e27/_data:/var/lib/postgresql/11/main/
+                networks:
+                  - zabbix-net
+        serv:
+                image: server-zabbix
+                container_name: serv
+                ports:
+                  - "10051:10051"
+                networks:
+                  - zabbix-net
+        agent:
+                image: zabbix/zabbix-agent
+                container_name: agent
+                ports: 
+                  - "10050:10050"
+                networks:
+                  - zabbix-net
+                environment:
+                  ZBX_SERVER_HOST: "serv"
+
+networks:
+        zabbix-net:
+            external: true

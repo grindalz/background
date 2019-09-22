@@ -1,0 +1,14 @@
+version: "2"
+services:
+        web:
+                image: zabbix/zabbix-agent
+                container_name: agent
+                ports: 
+                  - "10050:10050"
+                networks:
+                  - zabbix-net
+                environment:
+                  ZBX_SERVER_HOST: "serv"
+networks:
+        zabbix-net:
+            external: true
